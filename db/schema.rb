@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170122193403) do
+ActiveRecord::Schema.define(version: 20170123222808) do
 
   create_table "pins", force: :cascade do |t|
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.float    "latitude",   default: 0.0, null: false
     t.float    "longitude",  default: 0.0, null: false
+    t.integer  "status"
     t.index ["latitude"], name: "index_pins_on_latitude"
     t.index ["longitude"], name: "index_pins_on_longitude"
   end
