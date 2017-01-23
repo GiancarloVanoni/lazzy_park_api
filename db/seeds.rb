@@ -9,47 +9,63 @@ Pin.create!(
   [
     {
       latitude: -34.896654,
-      longitude: -56.121117
+      longitude: -56.121117,
+      status: 'busy'
     },
     {
-      latitude: -34.896408,
-      longitude: -56.121085
+      latitude: -34.896410,
+      longitude: -56.121083,
+      status: 'free'
+    },
+    {
+      latitude: -34.896510,
+      longitude: -56.121110,
+      status: 'free'
     },
     {
       latitude: -34.895783,
-      longitude: -56.119315
+      longitude: -56.119315,
+      status: 'uncertain'
     },
     {
       latitude: -34.897085,
-      longitude: -56.120388
+      longitude: -56.120388,
+      status: 'uncertain'
     },
     {
       latitude: -34.903130,
-      longitude: -56.131653
+      longitude: -56.131653,
+      status: 'uncertain'
     },
     {
       latitude: -34.896408,
-      longitude: -56.121085
+      longitude: -56.121085,
+      status: 'free'
     },
     {
       latitude: -34.856230,
-      longitude: -56.203514
+      longitude: -56.203514,
+      status: 'free'
     },
     {
       latitude: -33.747384,
-      longitude: -61.968903
+      longitude: -61.968903,
+      status: 'free'
     },
     {
       latitude: -33.747420,
-      longitude: -61.968603
+      longitude: -61.968603,
+      status: 'free'
     },
     {
       latitude: -33.747884,
-      longitude: -61.968270
+      longitude: -61.968270,
+      status: 'free'
     },
     {
       latitude: -33.747929,
-      longitude: -61.968688
+      longitude: -61.968688,
+      status: 'free'
     },
 
   ]
