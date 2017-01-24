@@ -1,6 +1,7 @@
 class Pin < ApplicationRecord
 
   STATUSES = { busy: 0, uncertain: 1, free: 2 }.with_indifferent_access
+  DISTANCE = 200
 
   acts_as_mappable lat_column_name: :latitude,
                    lng_column_name: :longitude
@@ -16,5 +17,10 @@ class Pin < ApplicationRecord
 
   def status=(value)
     write_attribute(:status, STATUSES[value])
+  end
+
+  def self.closest_pins(coordinates)
+    Pin.within(DISTANCE, origin: [coordinates[:latitude],
+      coordinates[:longitude]])
   end
 end

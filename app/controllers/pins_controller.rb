@@ -4,7 +4,7 @@ class PinsController < ApplicationController
   # GET /pins
   # GET /pins.json
   def index
-    @pins = Pin.all
+    @pins = Pin.closest_pins(pin_params_index)
   end
 
   # GET /pins/1
@@ -70,5 +70,9 @@ class PinsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def pin_params
       params.fetch(:pin, {})
+    end
+
+    def pin_params_index
+      params.permit(:latitude, :longitude)
     end
 end
