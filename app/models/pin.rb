@@ -23,4 +23,14 @@ class Pin < ApplicationRecord
     Pin.within(DISTANCE, origin: [coordinates[:latitude],
       coordinates[:longitude]])
   end
+
+  def self.update_statuses
+    pins = Pin.all
+    pins.each do |pin|
+      # status's order here is important
+      pin.status = "busy" if pin.status == "uncertain"
+      pin.status = "uncertain" if pin.status == "free"
+      pin.save!
+    end
+  end
 end
