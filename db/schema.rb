@@ -31,15 +31,4 @@ ActiveRecord::Schema.define(version: 20170414203757) do
     t.index ["longitude"], name: "index_pins_on_longitude", using: :btree
   end
 
-  create_table "subpins", force: :cascade do |t|
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.float    "latitude",            default: 0.0, null: false
-    t.float    "longitude",           default: 0.0, null: false
-    t.float    "speed",               default: 0.0, null: false
-    t.integer  "user_id"
-    t.integer  "activity_type"
-    t.integer  "activity_confidence"
-  end
-
 end
