@@ -14,6 +14,7 @@ class Pin < ApplicationRecord
   validate  :confirm_user_token
 
   attr_accessor :user_token
+  attr_accessor :insecure_percent
 
   after_commit  :delete_closest_pins, on: :create
 
@@ -26,8 +27,11 @@ class Pin < ApplicationRecord
   end
 
   def self.closest_pins(coordinates)
-    Pin.within(DISTANCE, origin: [coordinates[:latitude],
-      coordinates[:longitude]])
+    @pins = Pin.within(DISTANCE, origin: [coordinates[:latitude],
+              coordinates[:longitude]])
+    insecure_percent = Report.insecure_zone_percent(coordinates)
+    @pins.map { |pin| pin.insecure_percent = insecure_percent }
+    @pins
   end
 
   def self.update_statuses
