@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20170513142614) do
   end
 
   create_table "reports", force: :cascade do |t|
-    t.string   "type",                      null: false
+    t.string   "report_type",               null: false
     t.string   "description"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
