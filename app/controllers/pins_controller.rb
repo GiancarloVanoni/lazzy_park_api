@@ -37,7 +37,7 @@ class PinsController < ApplicationController
   end
 
   def pin_params
-    params.permit(:latitude, :longitude, :status)
+    params.permit(:latitude, :longitude, :status, :user_id, :user_token)
   end
 
   def pin_params_index

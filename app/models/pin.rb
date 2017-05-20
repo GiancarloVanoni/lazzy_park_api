@@ -11,8 +11,11 @@ class Pin < ApplicationRecord
                      inclusion: { in: STATUSES.stringify_keys.keys }
   validates :latitude, presence: true
   validates :longitude, presence: true
+  validate  :confirm_user_token
 
-  after_commit :delete_closest_pins, on: :create
+  attr_accessor :user_token
+
+  after_commit  :delete_closest_pins, on: :create
 
   def status
     STATUSES.key(read_attribute(:status))
@@ -44,5 +47,10 @@ class Pin < ApplicationRecord
     closest_pins.each do |pin|
       pin.delete unless pin == self
     end
+  end
+
+  def confirm_user_token
+    users_api_client = UserApi.new(user_id, user_token)
+    users_api_client.call
   end
 end
