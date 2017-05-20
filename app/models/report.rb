@@ -11,4 +11,7 @@ class Report < ApplicationRecord
   validates :latitude,  presence: true
   validates :longitude, presence: true
 
+  acts_as_mappable lat_column_name: :latitude,
+                   lng_column_name: :longitude
+
 end
