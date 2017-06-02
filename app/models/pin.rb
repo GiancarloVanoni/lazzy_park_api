@@ -55,6 +55,8 @@ class Pin < ApplicationRecord
 
   def confirm_user_token
     users_api_client = UserApi.new(user_id, user_token)
-    users_api_client.call
+    unless users_api_client.call
+      errors.add(:base, 'User token is invalid.')
+    end
   end
 end
