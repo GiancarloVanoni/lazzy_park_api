@@ -30,6 +30,22 @@ class PinsController < ApplicationController
     end
   end
 
+  # temporal endpoints because stupid ale
+  # /pins/:id
+  def destroy
+    pin = Pin.find(params[:id])
+    pin.destroy
+
+    redirect_to pins_all_path
+  end
+
+  # /pins/all
+  def all_pins
+    @pins = Pin.all
+
+    render template: 'pins/index'
+  end
+
   private
 
   def set_pin
