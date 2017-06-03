@@ -13,7 +13,7 @@ class ReportsController < ApplicationController
     @report = Report.new(report_params)
 
     if @report.save
-      render :show, status: :created, location: @report
+      render :show, status: :created
     else
       render json: @report.errors, status: :unprocessable_entity
     end

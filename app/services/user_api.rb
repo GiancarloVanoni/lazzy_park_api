@@ -6,8 +6,7 @@ class UserApi
   end
 
   def call
-    @user_id = 14
-    uri = "http://192.168.1.52:8000/api/users/#{@user_id}/confirm"
+    uri = "https://lazzy-park-users.herokuapp.com/api/users/#{@user_id}/confirm/"
     token = "Token #{@user_token}"
     headers = { "Authorization" => token }
 
