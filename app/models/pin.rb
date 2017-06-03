@@ -27,11 +27,9 @@ class Pin < ApplicationRecord
   end
 
   def self.closest_pins(coordinates)
-    @pins = Pin.within(DISTANCE, origin: [coordinates[:latitude],
+    pins = Pin.within(DISTANCE, origin: [coordinates[:latitude],
               coordinates[:longitude]])
-    insecure_percent = Report.insecure_zone_percent(coordinates)
-    @pins.map { |pin| pin.insecure_percent = insecure_percent }
-    @pins
+    add_insecure_percent(pins, coordinates)
   end
 
   def self.update_statuses
@@ -51,6 +49,12 @@ class Pin < ApplicationRecord
     closest_pins.each do |pin|
       pin.delete unless pin == self
     end
+  end
+
+  def self.add_insecure_percent(pins, coordinates)
+    insecure_percent = Report.insecure_zone_percent(coordinates)
+    pins.map { |pin| pin.insecure_percent = insecure_percent }
+    pins
   end
 
   def confirm_user_token
