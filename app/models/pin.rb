@@ -1,6 +1,9 @@
 class Pin < ApplicationRecord
-
-  STATUSES = { busy: 0, uncertain: 1, free: 2 }.with_indifferent_access
+  # busy:           a driver is using the spot (state 1 in the life cycle of a pin)
+  # free:           a driver left the spot free max 4 mins ago (state 2 in the life cycle of a pin)
+  # low_uncertain:  a driver left the spot free between 8 mins and 4 ago (state 3 in the life cycle of a pin)
+  # high_uncertain: a driver left the spot free between 12 mins and 8 ago (state 4 in the life cycle of a pin)
+  STATUSES = { busy: 0, free: 1, low_uncertain: 2, high_uncertain: 3 }.with_indifferent_access
   DISTANCE = 200
   DELETE_DISTANCE = 2.5
 
@@ -36,9 +39,12 @@ class Pin < ApplicationRecord
     pins = Pin.all
     pins.each do |pin|
       # status's order here is important
-      pin.status = "busy" if pin.status == "uncertain"
-      pin.status = "uncertain" if pin.status == "free"
-      pin.save!
+      if time_condition(pin)
+        pin.deleted = true if pin.status == 'high_uncertain'
+        pin.status  = 'high_uncertain' if pin.status == 'low_uncertain'
+        pin.status  = 'low_uncertain' if pin.status == "free"
+        pin.save!
+      end
     end
   end
 
@@ -62,5 +68,9 @@ class Pin < ApplicationRecord
     unless users_api_client.call
       errors.add(:base, 'User token is invalid.')
     end
+  end
+
+  def time_condition(pin)
+    pin.updated_at < Time.current - 4.minutes
   end
 end
