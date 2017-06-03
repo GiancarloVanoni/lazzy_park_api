@@ -4,7 +4,7 @@ class Report < ApplicationRecord
 
   REPORT_TYPES = [
     'broken_street', 'insecure_zone', 'velocity_camera',
-    'transit_police'
+    'transit_police', 'cuidacoches_bueno', 'cuidacoches_malo'
   ]
 
   validates :report_type, presence: true,
