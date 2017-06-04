@@ -1,6 +1,6 @@
 class PinsController < ApplicationController
    skip_before_action :verify_authenticity_token
-   before_action      :set_pin, only: :update
+   before_action      :set_pin_for_update, only: :update
 
   # GET /pins
   # GET /pins.json
@@ -48,8 +48,8 @@ class PinsController < ApplicationController
 
   private
 
-  def set_pin
-    @pin = Pin.find(params[:id])
+  def set_pin_for_update
+    @pin = Pin.with_busy_status.find(params[:id])
   end
 
   def pin_params

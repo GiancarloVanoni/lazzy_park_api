@@ -19,6 +19,9 @@ class Pin < ApplicationRecord
   attr_accessor :user_token
   attr_accessor :insecure_percent
 
+  scope :active, -> { where deleted: false }
+  scope :with_busy_status, -> { where status: 'busy' }
+
   after_commit  :delete_closest_pins, on: :create
 
   def status
@@ -30,13 +33,13 @@ class Pin < ApplicationRecord
   end
 
   def self.closest_pins(coordinates)
-    pins = Pin.within(DISTANCE, origin: [coordinates[:latitude],
-              coordinates[:longitude]])
+    pins = Pin.active.within(DISTANCE, origin: [coordinates[:latitude],
+               coordinates[:longitude]])
     add_insecure_percent(pins, coordinates)
   end
 
   def self.update_statuses
-    pins = Pin.all
+    pins = Pin.active
     pins.each do |pin|
       # status's order here is important
       if time_condition(pin)
@@ -51,9 +54,9 @@ class Pin < ApplicationRecord
   private
 
   def delete_closest_pins
-    closest_pins = Pin.within(DELETE_DISTANCE, origin: [latitude, longitude])
+    closest_pins = Pin.active.within(DELETE_DISTANCE, origin: [latitude, longitude])
     closest_pins.each do |pin|
-      pin.delete unless pin == self
+      pin.deleted = true unless pin == self
     end
   end
 
@@ -70,7 +73,7 @@ class Pin < ApplicationRecord
     end
   end
 
-  def time_condition(pin)
+  def self.time_condition(pin)
     pin.updated_at < Time.current - 4.minutes
   end
 end
